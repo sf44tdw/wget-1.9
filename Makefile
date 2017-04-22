@@ -53,8 +53,8 @@ mandir      = ${prefix}/man
 manext      = 1
 localedir   = $(prefix)/share/locale
 
-CC = /usr/bin/gcc
-CFLAGS = -g3 -gdwarf-2
+CC = gcc
+CFLAGS =  -O2 -Wall -Wno-implicit
 CPPFLAGS = 
 DEFS = -DHAVE_CONFIG_H -DSYSTEM_WGETRC=\"$(sysconfdir)/wgetrc\" -DLOCALEDIR=\"$(localedir)\"
 LIBS = 

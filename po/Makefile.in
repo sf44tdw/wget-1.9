@@ -31,14 +31,14 @@ DESTDIR =
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 
-CC = /usr/bin/gcc
+CC = gcc
 GMSGFMT = PATH=../src:$$PATH /usr/bin/msgfmt
 MSGFMT = /usr/bin/msgfmt
 XGETTEXT = PATH=../src:$$PATH /usr/bin/xgettext
 MSGMERGE = PATH=../src:$$PATH msgmerge
 
 DEFS = -DHAVE_CONFIG_H
-CFLAGS = -g3 -gdwarf-2
+CFLAGS =  -O2 -Wall -Wno-implicit
 CPPFLAGS = 
 
 INCLUDES = -I.. -I$(top_srcdir)/intl

@@ -47,11 +47,11 @@ localedir    = $(prefix)/share/locale
 
 DESTDIR      =
 
-CC       = /usr/bin/gcc
+CC       = gcc
 CPPFLAGS = 
 # The following line is losing on some versions of make!
 DEFS     = -DHAVE_CONFIG_H -DSYSTEM_WGETRC=\"$(sysconfdir)/wgetrc\" -DLOCALEDIR=\"$(localedir)\"
-CFLAGS   = -g3 -gdwarf-2
+CFLAGS   =  -O2 -Wall -Wno-implicit
 LDFLAGS  = 
 LIBS     = 
 exeext   = 

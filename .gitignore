@@ -31,6 +31,15 @@
 # Debug files
 *.dSYM/
 
+# Dynamic file
+Makefile
+config.log
+config.status
+doc/wget.1
+doc/wget.info
+po/Makefile
+po/Makefile.in
+
 # =========================
 # Operating System Files
 # =========================

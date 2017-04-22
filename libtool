@@ -67,7 +67,7 @@ AR="ar"
 AR_FLAGS="cru"
 
 # The default C compiler.
-CC="/usr/bin/gcc"
+CC="gcc"
 
 # Is the compiler the GNU C compiler?
 with_gcc=yes
