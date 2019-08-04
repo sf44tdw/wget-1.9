@@ -81,12 +81,14 @@ ssl_init_prng (void)
   if (RAND_status ())
     return;
 
+# ifndef OPENSSL_NO_EGD
   /* Get random data from EGD if opt.sslegdsock was set.  */
   if (opt.sslegdsock && *opt.sslegdsock)
     RAND_egd (opt.sslegdsock);
 
   if (RAND_status ())
     return;
+#endif
 
 #ifdef WINDOWS
   /* Under Windows, we can try to seed the PRNG using screen content.
@@ -123,10 +125,15 @@ ssl_init_prng (void)
 int
 verify_callback (int ok, X509_STORE_CTX *ctx)
 {
-  char *s, buf[256];
-  s = X509_NAME_oneline (X509_get_subject_name (ctx->current_cert), buf, 256);
+  char buf[256];
+
+  const X509 *x509=X509_STORE_CTX_get_current_cert(ctx);
+  X509_NAME *x509name=X509_get_subject_name (x509);
+  char *s = X509_NAME_oneline (x509name, buf, 256);
+
   if (ok == 0) {
-    switch (ctx->error) {
+	 int stat=X509_STORE_CTX_get_error(ctx);
+    switch (stat) {
     case X509_V_ERR_CERT_NOT_YET_VALID:
     case X509_V_ERR_CERT_HAS_EXPIRED:
       /* This mean the CERT is not valid !!! */
@@ -167,21 +174,20 @@ init_ssl (SSL_CTX **ctx)
   int can_validate;
   SSL_library_init ();
   SSL_load_error_strings ();
-  SSLeay_add_all_algorithms ();
   SSLeay_add_ssl_algorithms ();
   switch (opt.sslprotocol)
     {
       default:
-	meth = SSLv23_client_method ();
-	break;
-      case 1 :
-	meth = SSLv2_client_method ();
-	break;
-      case 2 :
 	meth = SSLv3_client_method ();
 	break;
+      case 1 :
+	meth = TLS_client_method();
+	break;
+      case 2 :
+	meth = TLSv1_1_client_method ();
+	break;
       case 3 :
-	meth = TLSv1_client_method ();
+	meth = TLSv1_2_client_method ();
 	break;
     }
   if (meth == NULL)
@@ -287,7 +293,7 @@ connect_ssl (SSL **con, SSL_CTX *ctx, int fd)
   switch (SSL_connect (*con))
     {
       case 1 : 
-	return (*con)->state != SSL_ST_OK;
+	return SSL_get_state(*con) != TLS_ST_OK;
       default:
         ssl_printerrors ();
 	shutdown_ssl (*con);
@@ -315,7 +321,8 @@ int
 ssl_iread (SSL *con, char *buf, int len)
 {
   int res, fd;
-  BIO_get_fd (con->rbio, &fd);
+  BIO *bio=SSL_get_rbio(con);
+  BIO_get_fd (bio, &fd);
 #ifdef HAVE_SELECT
   if (opt.read_timeout && !SSL_pending (con))
     if (select_fd (fd, opt.read_timeout, 0) <= 0)
@@ -335,7 +342,8 @@ int
 ssl_iwrite (SSL *con, char *buf, int len)
 {
   int res = 0, fd;
-  BIO_get_fd (con->rbio, &fd);
+  BIO *bio=SSL_get_rbio(con);
+  BIO_get_fd (bio, &fd);
   /* `write' may write less than LEN bytes, thus the outward loop
      keeps trying it until all was written, or an error occurred.  The
      inner loop is reserved for the usual EINTR f*kage, and the

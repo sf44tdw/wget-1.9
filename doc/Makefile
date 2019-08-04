@@ -37,8 +37,8 @@ srcdir     = .
 
 
 prefix     = /usr/local
-infodir    = ${prefix}/info
-mandir     = ${prefix}/man
+infodir    = ${prefix}/share/info
+mandir     = ${prefix}/share/man
 manext     = 1
 sysconfdir = ${prefix}/etc
 

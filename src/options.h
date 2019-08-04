@@ -174,7 +174,7 @@ struct options
   int   sslcerttype;		/* 0 = PEM / 1=ASN1 (DER) */
   int   sslcheckcert;		/* 0 do not check / 1 check server cert */
   char *sslegdsock;             /* optional socket of the egd daemon */
-  int   sslprotocol;		/* 0 = auto / 1 = v2 / 2 = v3 / 3 = TLSv1 */
+  int   sslprotocol;		/* 0 = v3 / 1 = auto(TLS)/ 2 = TLSv1_1/ 3 = TLSv1_2*/
 #endif /* HAVE_SSL */
 
   int   cookies;

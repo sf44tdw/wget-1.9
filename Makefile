@@ -47,9 +47,9 @@ srcdir = .
 prefix      = /usr/local
 exec_prefix = ${prefix}
 bindir      = ${exec_prefix}/bin
-infodir     = ${prefix}/info
+infodir     = ${prefix}/share/info
 sysconfdir  = ${prefix}/etc
-mandir      = ${prefix}/man
+mandir      = ${prefix}/share/man
 manext      = 1
 localedir   = $(prefix)/share/locale
 
@@ -57,7 +57,7 @@ CC = gcc
 CFLAGS =  -O2 -Wall -Wno-implicit
 CPPFLAGS = 
 DEFS = -DHAVE_CONFIG_H -DSYSTEM_WGETRC=\"$(sysconfdir)/wgetrc\" -DLOCALEDIR=\"$(localedir)\"
-LIBS = 
+LIBS = -lssl -lcrypto -ldl 
 LDFLAGS = 
 
 #

@@ -223,8 +223,8 @@ HTTPS (SSL) options:\n\
        --sslcafile=FILE       file with bundle of CA's\n\
        --sslcerttype=0/1      Client-Cert type 0=PEM (default) / 1=ASN1 (DER)\n\
        --sslcheckcert=0/1     Check the server cert agenst given CA\n\
-       --sslprotocol=0-3      choose SSL protocol; 0=automatic,\n\
-                              1=SSLv2 2=SSLv3 3=TLSv1\n\
+       --sslprotocol=0-3      choose SSL protocol; 0=SSLv3,\n\
+                              1=automatic(TLS) 2=TLSv1_1 3=TLSv1_2\n\
 \n"), stdout);
 #endif
   fputs (_("\

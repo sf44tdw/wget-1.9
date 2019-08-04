@@ -53,10 +53,10 @@ CPPFLAGS =
 DEFS     = -DHAVE_CONFIG_H -DSYSTEM_WGETRC=\"$(sysconfdir)/wgetrc\" -DLOCALEDIR=\"$(localedir)\"
 CFLAGS   =  -O2 -Wall -Wno-implicit
 LDFLAGS  = 
-LIBS     = 
+LIBS     = -lssl -lcrypto -ldl 
 exeext   = 
 
-INCLUDES = -I. -I$(srcdir) -I/opt/include
+INCLUDES = -I. -I$(srcdir) 
 
 COMPILE = $(CC) $(INCLUDES) $(CPPFLAGS)  $(DEFS) $(CFLAGS)
 LINK    = $(SHELL) $(top_builddir)/libtool --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -67,9 +67,9 @@ ETAGS = etags
 
 # Conditional compiles
 ALLOCA     = 
-MD5_OBJ    = gen-md5$o gnu-md5$o
+MD5_OBJ    = gen-md5$o
 OPIE_OBJ   = ftp-opie$o
-SSL_OBJ    = 
+SSL_OBJ    = gen_sslfunc$o
 GETOPT_OBJ = 
 
 OBJ = $(ALLOCA) cmpt$o connect$o convert$o cookies$o              \
